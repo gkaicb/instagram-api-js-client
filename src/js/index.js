@@ -1,6 +1,8 @@
 require('./polyfill')
-import Merge from 'deepmerge'
+import 'core-js/stable'
 import 'regenerator-runtime/runtime'
+import 'whatwg-fetch'
+import Merge from 'deepmerge'
 
 const API_URL = 'https://graph.instagram.com/'
 const USER_FIELDS = 'id,ig_id,username,account_type,media_count'
