@@ -1,0 +1,28 @@
+{
+    "useTabs": false,
+    "tabWidth": 4,
+    "printWidth": 120,
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": "*.js",
+            "options": {
+                "semi": false,
+                "trailingComma": "es5"
+            }
+        },
+        {
+            "files": "*.scss",
+            "options": {
+                "singleQuote": false,
+                "semi": true
+            }
+        },
+        {
+            "files": "*.json",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}

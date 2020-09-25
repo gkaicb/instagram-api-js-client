@@ -1,0 +1,50 @@
+{
+  "name": "instagram-api-js-client",
+  "version": "1.0.0",
+  "description": "Simple Instagram Basic Display API Client",
+  "main": "dist/js/instagram-api-js-client.js",
+  "author": "Gerard Cáceres Bartrolí",
+  "keywords": [
+    "instagram",
+    "basic",
+    "display",
+    "api",
+    "javascript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkaicb/instagram-api-js-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gkaicb/instagram-api-js-client/issues"
+  },
+  "homepage": "https://github.com/gkaicb/instagram-api-js-client#readme",
+  "scripts": {
+    "prod": "webpack --config config/webpack.prod.js",
+    "local": "webpack --config config/webpack.local.js",
+    "dev": "webpack-dev-server --watch --config config/webpack.dev.js",
+    "prepublishOnly": "npm run prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/runtime-corejs3": "^7.11.2",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.6.5",
+    "css-loader": "^3.4.2",
+    "deepmerge": "^4.2.2",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.11.0",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.1.3",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
+  }
+}
