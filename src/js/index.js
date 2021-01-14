@@ -3,11 +3,7 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import 'whatwg-fetch'
 import Merge from 'deepmerge'
-
-const API_URL = 'https://graph.instagram.com/'
-const USER_FIELDS = 'id,ig_id,username,account_type,media_count'
-const MEDIA_FIELDS = 'username,id,permalink,caption,media_type,media_url,thumbnail_url,timestamp,like_count'
-const CHILDREN_FIELDS = 'username,id,permalink,media_type,media_url,thumbnail_url,timestamp,like_count'
+import { getAuthorizationUrl, getToken, getLongLivedToken } from './authorization'
 
 const defaultOptions = {
     limit: 99,
@@ -18,8 +14,12 @@ const defaultOptions = {
 
 export class Instagram {
     constructor(token, options = {}) {
-        this.settings = Merge(defaultOptions, options)
         this.token = token
+        this.settings = Merge(defaultOptions, options)
+
+        if (!this.token) {
+            Instagram.warn('No token. Use authorization methods to get your token.')
+        }
     }
 
     setOptions(options) {
@@ -44,11 +44,11 @@ export class Instagram {
         }
 
         const data = {
-            fields: USER_FIELDS,
+            fields: Instagram.USER_FIELDS,
             access_token: this.token,
         }
 
-        let response = await this.makeCall(API_URL + 'me', data)
+        let response = await Instagram.makeCall(Instagram.GRAPH_URL + 'me', data)
 
         if (response.error) {
             return Promise.reject(response.error)
@@ -63,13 +63,15 @@ export class Instagram {
         }
 
         const data = {
-            fields: this.settings.fetchChildren ? MEDIA_FIELDS + `,children{${CHILDREN_FIELDS}}` : MEDIA_FIELDS,
+            fields: this.settings.fetchChildren
+                ? Instagram.MEDIA_FIELDS + `,children{${Instagram.CHILDREN_FIELDS}}`
+                : Instagram.MEDIA_FIELDS,
             access_token: this.token,
             limit: limit ? limit : this.settings.limit,
             after: after,
         }
 
-        let response = await this.makeCall(API_URL + 'me/media', data)
+        let response = await Instagram.makeCall(Instagram.GRAPH_URL + 'me/media', data)
 
         if (response.error) {
             return Promise.reject(response.error)
@@ -84,11 +86,11 @@ export class Instagram {
         }
 
         const data = {
-            fields: CHILDREN_FIELDS,
+            fields: Instagram.CHILDREN_FIELDS,
             access_token: this.token,
         }
 
-        let response = await this.makeCall(API_URL + id + '/children', data)
+        let response = await Instagram.makeCall(Instagram.GRAPH_URL + id + '/children', data)
 
         if (response.error) {
             return Promise.reject(response.error)
@@ -147,7 +149,7 @@ export class Instagram {
             access_token: this.token,
         }
 
-        let response = await this.makeCall(API_URL + 'refresh_access_token', data)
+        let response = await Instagram.makeCall(Instagram.GRAPH_URL + 'refresh_access_token', data)
 
         if (response.error) {
             return Promise.reject(response.error)
@@ -156,24 +158,52 @@ export class Instagram {
         return response
     }
 
-    async makeCall(url, data, method = 'GET') {
+    static async makeCall(url, data, method = 'GET', format = 'JSON') {
+        var searchParameters = new URLSearchParams()
+        for (const key in data) {
+            searchParameters.append(key, data[key])
+        }
+
         if (method === 'GET' && data) {
-            var searchParameters = new URLSearchParams()
-            for (const key in data) {
-                searchParameters.append(key, data[key])
-            }
             const params = searchParameters.toString()
             url = url + '?' + params
         }
 
         const response = await fetch(url, {
             method: method,
-            body: method === 'POST' ? JSON.stringify(data) : null,
+            body: method === 'POST' ? (format === 'JSON' ? JSON.stringify(data) : searchParameters) : null,
         })
 
         return response.json()
     }
+
+    static log(message = '') {
+        console.log('Instagram: ' + message)
+    }
+
+    static info(message = '') {
+        console.info('Instagram: ' + message)
+    }
+
+    static warn(message = '') {
+        console.warn('Instagram: ' + message)
+    }
+
+    static error(message = '') {
+        console.error('Instagram: ' + message)
+    }
 }
+
+Instagram.API_URL = 'https://api.instagram.com/'
+Instagram.GRAPH_URL = 'https://graph.instagram.com/'
+Instagram.SCOPES = 'user_profile,user_media'
+Instagram.USER_FIELDS = 'id,username,account_type,media_count'
+Instagram.MEDIA_FIELDS = 'username,id,permalink,caption,media_type,media_url,thumbnail_url,timestamp,like_count'
+Instagram.CHILDREN_FIELDS = 'username,id,permalink,media_type,media_url,thumbnail_url,timestamp,like_count'
+
+Instagram.getAuthorizationUrl = getAuthorizationUrl
+Instagram.getToken = getToken
+Instagram.getLongLivedToken = getLongLivedToken
 
 export class Media {
     constructor(data = {}) {
