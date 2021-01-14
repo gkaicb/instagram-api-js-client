@@ -1,6 +1,6 @@
 {
   "name": "instagram-api-js-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple Instagram Basic Display API Client",
   "main": "dist/js/instagram-api-js-client.js",
   "author": "Gerard Cáceres Bartrolí",
