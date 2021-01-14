@@ -178,19 +178,19 @@ export class Instagram {
     }
 
     static log(message = '') {
-        console.log('Instagram: ' + message)
+        console.log('Instagram: ', message)
     }
 
     static info(message = '') {
-        console.info('Instagram: ' + message)
+        console.info('Instagram: ', message)
     }
 
     static warn(message = '') {
-        console.warn('Instagram: ' + message)
+        console.warn('Instagram: ', message)
     }
 
     static error(message = '') {
-        console.error('Instagram: ' + message)
+        console.error('Instagram: ', message)
     }
 }
 
