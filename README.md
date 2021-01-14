@@ -6,7 +6,11 @@
 
 ## Requirements
 
-- Access token ([Facebook documentation](https://developers.facebook.com/docs/instagram-basic-display-api/overview#instagram-user-access-tokens))
+- Facebook APP with Instagram Basic Display (in order to generate tokens) or
+
+- Access token 
+
+([Instagram Basic Display API](https://developers.facebook.com/docs/instagram-basic-display-api/overview#instagram-user-access-tokens))
 
 ## Get started
 
@@ -27,6 +31,29 @@ import { Instagram } from 'instagram-api-js-client'
 var instagram = new Instagram('VALID_TOKEN')
 ...
 ```
+
+## Get access token
+
+```js
+Instagram.getAuthorizationUrl({
+    appId: 'appId',
+    redirectUri: 'redirectUri',
+})
+```
+Get the url from the console and authorize the app. Then get the code parameter from the redirected url and use it in the following call.
+```js
+Instagram.getToken({
+    appId: 'appId',
+    appSecret: 'appSecret',
+    redirectUri: 'redirectUri',
+    code: 'code',
+})
+```
+The user id, a short-Lived token and the long-lived token will be displayed in the console. Use this last one from now on.
+
+### About token expiration
+
+Public accounts long-lived tokens can be refreshed by using the `refreshToken` method. Private accounts cannot be refreshed and must grant access again after 60 days ([See more](https://developers.facebook.com/docs/instagram-basic-display-api/overview#instagram-user-access-tokens))
 
 ## Basic Usage
 

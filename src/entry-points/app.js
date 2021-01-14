@@ -4,6 +4,22 @@ const { Instagram, MediaFactory } = window['instagram-api-js-client']
 // const Instagram = window['instagram-api-js-client'].default
 // const MediaFactory = window['instagram-api-js-client'].MediaFactory
 
+// Static methods to retrieve token. Must be called manually from the console
+
+Instagram.getAuthorizationUrl({
+    appId: 'appId',
+    redirectUri: 'redirectUri',
+})
+
+Instagram.getToken({
+    appId: 'appId',
+    appSecret: 'appSecret',
+    redirectUri: 'redirectUri',
+    code: 'code',
+})
+
+// Usage with token
+
 const customOptions = {
     limit: 99,
     fetchChildren: false,
