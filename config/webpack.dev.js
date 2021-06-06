@@ -1,6 +1,6 @@
 const paths = require('./paths')
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -12,6 +12,7 @@ module.exports = merge(common, {
     devServer: {
         host: '0.0.0.0',
         hot: false,
+        injectClient: false,
     },
     module: {
         rules: [

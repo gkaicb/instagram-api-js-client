@@ -1,5 +1,5 @@
 const paths = require('./paths')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const common = require('./webpack.common.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -16,9 +16,7 @@ module.exports = merge(common, {
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: process.env.NODE_ENV === 'development',
-                        },
+                        options: {},
                     },
                     'css-loader',
                     'sass-loader',
