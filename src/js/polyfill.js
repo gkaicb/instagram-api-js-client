@@ -1,4 +1,3 @@
-console.info('polyfill for IE11')
 ;(function (arr) {
     arr.forEach(function (item) {
         if (item.hasOwnProperty('remove')) {
